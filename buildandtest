@@ -6,11 +6,10 @@ rm -fr build fff.h
 mkdir build
 
 # Configure the build
-cd build
-cmake -GNinja ../ || exit -1
+cmake -GNinja -B build || exit -1
 
 # Build all targets
-cmake --build . || exit -1
+cmake --build build || exit -1
 
 # Run all tests
-ctest --output-on-failure
+ctest --test-dir build --output-on-failure

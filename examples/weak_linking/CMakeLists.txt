@@ -1,6 +1,12 @@
 # Copyright 2022 Google LLC
 # SPDX-License-Identifier: Apache-2.0
 
+# Skip these tests for Windows
+if(WIN32)
+    message(STATUS "Weak linking requires __attribute__((weak)) which isn't supported on MS VS, skipping tests")
+    return()
+endif()
+
 # Set the global FFF_GCC_FUNCTION_ATTRIBUTES for config.h
 set(FFF_GCC_FUNCTION_ATTRIBUTES "__attribute__((weak))")
 configure_file(config/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)

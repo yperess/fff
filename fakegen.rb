@@ -9,7 +9,7 @@ $DEFAULT_ARG_HISTORY = 50
 $MAX_CALL_HISTORY = 50
 
 def license
-#   File.foreach("LICENSE") { |line| putd line }
+  File.foreach("#{__dir__}/LICENSE") { |line| putd line }
 end
 
 def include_dependencies

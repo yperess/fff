@@ -4,6 +4,8 @@
 cmake_minimum_required(VERSION 3.20.0)
 project(fff)
 
+set(CMAKE_CXX_STANDARD 11)
+
 # Add the gtest library which will be used below
 add_subdirectory(gtest)
 
@@ -15,19 +17,16 @@ add_custom_command(
   OUTPUT
     ${CMAKE_CURRENT_LIST_DIR}/fff.h
   COMMAND
-    cat ${CMAKE_CURRENT_LIST_DIR}/LICENSE > ${CMAKE_CURRENT_LIST_DIR}/fff.h
-  COMMAND
-    echo >> ${CMAKE_CURRENT_LIST_DIR}/fff.h
-  COMMAND
     ruby ${CMAKE_CURRENT_LIST_DIR}/fakegen.rb >> ${CMAKE_CURRENT_LIST_DIR}/fff.h
   DEPENDS
     ${CMAKE_CURRENT_LIST_DIR}/fakegen.rb
     ${CMAKE_CURRENT_LIST_DIR}/LICENSE
 )
+add_custom_target(fff_h DEPENDS ${CMAKE_CURRENT_LIST_DIR}/fff.h)
 
 # Add an interface library for fff.h
 add_library(fff INTERFACE)
-target_sources(fff PUBLIC ${CMAKE_CURRENT_LIST_DIR}/fff.h)
+add_dependencies(fff fff_h)
 target_include_directories(fff INTERFACE ${CMAKE_CURRENT_LIST_DIR})
 
 # Add tests and samples
